@@ -1,0 +1,76 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Creates a VPC with three subnets across three Availability Zones in us-west-2
+# Revision: 1.0
+# Date: 2026-03-26
+
+# -----------------------------
+# Parameters
+# -----------------------------
+# (Optional now since ID is hardcoded, but kept for assignment clarity)
+Parameters:
+  StudentID:
+    Type: String
+    Default: ANTROB1744
+    Description: ECPI Student ID
+
+# -----------------------------
+# Resources
+# -----------------------------
+Resources:
+
+  # Create the main VPC
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        # VPC name format: VPC-studentID
+        - Key: Name
+          Value: VPC-ANTROB1744
+
+  # Subnet in Availability Zone us-west-2a
+  SubnetAZ1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: us-west-2a
+      Tags:
+        - Key: Name
+          Value: Subnet1-ANTROB1744
+
+  # Subnet in Availability Zone us-west-2b
+  SubnetAZ2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: us-west-2b
+      Tags:
+        - Key: Name
+          Value: Subnet2-ANTROB1744
+
+  # Subnet in Availability Zone us-west-2c
+  SubnetAZ3:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.3.0/24
+      AvailabilityZone: us-west-2c
+      Tags:
+        - Key: Name
+          Value: Subnet3-ANTROB1744
+
+# -----------------------------
+# Outputs
+# -----------------------------
+Outputs:
+  VPCId:
+    Description: ID of the created VPC
+    Value: !Ref MyVPC
+
+  VPCName:
+    Description: Name of the VPC
+    Value: VPC-ANTROB1744
